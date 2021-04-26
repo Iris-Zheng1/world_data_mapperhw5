@@ -38,32 +38,32 @@ const Login = (props) => {
         // Replace div with WModal
 
 		<div className="login-modal">
-			<div className="modal-header" onClose={() => props.setShowLogin(false)}>
-				Login
-			</div>
 
 			{
 				loading ? <div />
-					: <div className="main-login-modal">
+					: <WModal visible = {true} className="main-login-modal">
+						<WMHeader className="modal-header" onClose={() => props.setShowLogin(false)}>
+							Login
+						</WMHeader>
+						<WMMain>
+							<WInput className="modal-input" onBlur={updateInput} name='email' labelAnimation="up" barAnimation="solid" labelText="Email Address" wType="outlined" inputType='text' />
+							<div className="modal-spacer">&nbsp;</div>
+							<WInput className="modal-input" onBlur={updateInput} name='password' labelAnimation="up" barAnimation="solid" labelText="Password" wType="outlined" inputType='password' />
 
-						<WInput className="modal-input" onBlur={updateInput} name='email' labelAnimation="up" barAnimation="solid" labelText="Email Address" wType="outlined" inputType='text' />
-						<div className="modal-spacer">&nbsp;</div>
-						<WInput className="modal-input" onBlur={updateInput} name='password' labelAnimation="up" barAnimation="solid" labelText="Password" wType="outlined" inputType='password' />
-
-						{
-							showErr ? <div className='modal-error'>
-								{errorMsg}
-							</div>
-								: <div className='modal-error'>&nbsp;</div>
-						}
-
-					</div>
+							{
+								showErr ? <div className='modal-error'>
+									{errorMsg}
+								</div>
+									: <div className='modal-error'>&nbsp;</div>
+							}
+						</WMMain>
+						<WMFooter>
+							<WButton className="modal-button" onClick={handleLogin} span clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" color="primary">
+								Login
+							</WButton>
+						</WMFooter>
+					</WModal>
 			}
-			<div>
-				<WButton className="modal-button" onClick={handleLogin} span clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" color="primary">
-					Login
-				</WButton>
-			</div>
 		</div>
 	);
 }

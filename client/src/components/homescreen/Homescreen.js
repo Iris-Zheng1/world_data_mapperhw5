@@ -16,6 +16,10 @@ import { UpdateListField_Transaction,
 	ReorderItems_Transaction, 
 	EditItem_Transaction } 				from '../../utils/jsTPS';
 import WInput from 'wt-frontend/build/components/winput/WInput';
+import WCard from 'wt-frontend/build/components/wcard/WCard';
+import WCContent from 'wt-frontend/build/components/wcard/WCContent';
+import WLFooter from 'wt-frontend/build/components/wlayout/WLFooter';
+import globe							from '../../images/globe.jpeg';
 
 
 const Homescreen = (props) => {
@@ -187,7 +191,7 @@ const Homescreen = (props) => {
 	}
 
 	return (
-		<WLayout wLayout="header-lside">
+		<WLayout wLayout="header">
 			<WLHeader>
 				<WNavbar color="colored">
 					<ul>
@@ -205,7 +209,8 @@ const Homescreen = (props) => {
 				</WNavbar>
 			</WLHeader>
 
-			<WLSide side="left">
+			{
+			auth && (<WLSide side="left">
 				<WSidebar>
 					{
 						activeList ?
@@ -219,8 +224,11 @@ const Homescreen = (props) => {
 							<></>
 					}
 				</WSidebar>
-			</WLSide>
-			<WLMain>
+			</WLSide>)
+			}
+
+			{
+				auth && (<WLMain>
 				{
 					activeList ? 
 							<div className="container-secondary">
@@ -234,8 +242,11 @@ const Homescreen = (props) => {
 						:
 							<div className="container-secondary" />
 				}
+			</WLMain>)}
 
-			</WLMain>
+			{
+				!auth && (<WLMain className="welcome"><img src={globe} alt="globe.jpg"/><br/>Welcome To The World Data Mapper</WLMain>)
+			}
 
 			{
 				showDelete && (<Delete deleteList={deleteList} activeid={activeList._id} setShowDelete={setShowDelete} />)

@@ -1,10 +1,10 @@
 @use 'node_modules/wt-frontend/build/global/theme' with (
     $primary-color: #c82828,
-    $background-color: rgb(64, 69, 78),//#d9d6cc,
-    $navbar-background-color: #353a44,//rgb(64, 69, 78),
-    $sidebar-background-color: #2b2e36,//#353a44,
+    $background-color: rgb(46, 46, 46),
+    $navbar-background-color: #000000,
+    $sidebar-background-color: #2b2e36,
     $text-color: #e9edf0,
-    $modal-background: rgb(64, 69, 78),
+    $modal-background: rgb(0,0,0),
     $modal-section-padding: 24px,
     $modal-radius: 4px,
     $modal-border: 1px solid rgb(87, 93, 105),
@@ -177,7 +177,14 @@ html, body {
 
 .navbar-options {
     color: $text-color;
+    font-weight: bold;
     font-size: 16px;
+}
+
+.navbar-options-accent {
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .cancel-button {
@@ -190,4 +197,11 @@ html, body {
 
 .table-entry-buttons {
     color: $text-color;
+}
+
+.welcome {
+    color: $text-color;
+    font-size: 64px;
+    font-weight: bold;
+    font-family: "Times New Roman";
 }
