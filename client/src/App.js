@@ -1,5 +1,6 @@
 import React 			from 'react';
 import Homescreen 		from './components/homescreen/Homescreen';
+import Login			from './components/modals/Login';
 import { useQuery } 	from '@apollo/client';
 import * as queries 	from './cache/queries';
 import { jsTPS } 		from './utils/jsTPS';
@@ -26,7 +27,7 @@ const App = () => {
 					path="/home" 
 					name="home" 
 					render={() => 
-						<Homescreen tps={transactionStack} fetchUser={refetch} user={user} />
+						<Homescreen tps={transactionStack} fetchUser={refetch} user={user}/>
 					} 
 				/>
 				<Route/>

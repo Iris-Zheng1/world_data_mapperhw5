@@ -82,6 +82,21 @@ module.exports = {
 			res.clearCookie('refresh-token');
 			res.clearCookie('access-token');
 			return true;
+		},
+
+		update: async (_, args) => {
+			const { _id, email, oldPassword, newPassword, firstName, lastName } = args;
+			const userId = new ObjectId(_id);
+			//check if the password is correct
+			const user = await User.findOne({_id:userId});
+			if(!user) return false;
+			const valid = await bcrypt.compare(oldPassword, user.password);
+			if(!valid) 
+				return false;
+			//update new account info
+			const hashed = await bcrypt.hash(newPassword, 10);
+			const updating = await User.updateOne({_id:userId},{ email: email,password:hashed,firstName:firstName,lastName:lastName, initials: `${firstName[0]}.${lastName[0]}.` });
+			return true;
 		}
 	}
 }

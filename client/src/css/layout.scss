@@ -134,7 +134,11 @@ html {
 }
 
 .signup-modal {
-    width: 375px;
+    width: 400px;
+}
+
+.update-modal {
+    width: fit-content;
 }
 
 .modal-col-gap{
@@ -145,6 +149,17 @@ html {
     text-transform: uppercase;
     font-weight: bold;
     letter-spacing: 1px;
+    margin-left: 10px;
+    margin-right:10px;
+}
+
+.modal-button-right {
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-left: 10px;
+    margin-right:10px;
+    float:right;
 }
 
 .modal-spacer {
@@ -152,7 +167,7 @@ html {
 }
 
 .main-login-modal {
-    padding: 24px 24px 0px 24px;
+    //padding: 24px 24px 0px 24px;
 }
 
 .modal-error {

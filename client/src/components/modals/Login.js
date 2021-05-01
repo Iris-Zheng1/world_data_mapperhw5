@@ -43,7 +43,7 @@ const Login = (props) => {
 				loading ? <div />
 					: <WModal visible = {true} className="main-login-modal">
 						<WMHeader className="modal-header" onClose={() => props.setShowLogin(false)}>
-							Login
+							Login To Your Account
 						</WMHeader>
 						<WMMain>
 							<WInput className="modal-input" onBlur={updateInput} name='email' labelAnimation="up" barAnimation="solid" labelText="Email Address" wType="outlined" inputType='text' />
@@ -58,8 +58,11 @@ const Login = (props) => {
 							}
 						</WMMain>
 						<WMFooter>
-							<WButton className="modal-button" onClick={handleLogin} span clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" color="primary">
+							<WButton className="modal-button" onClick={handleLogin} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded">
 								Login
+							</WButton>
+							<WButton className="modal-button-right" onClick={() => props.setShowLogin(false)} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" >
+								Cancel
 							</WButton>
 						</WMFooter>
 					</WModal>

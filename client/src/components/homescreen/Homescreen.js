@@ -6,6 +6,7 @@ import SidebarContents 					from '../sidebar/SidebarContents';
 import Login 							from '../modals/Login';
 import Delete 							from '../modals/Delete';
 import CreateAccount 					from '../modals/CreateAccount';
+import UpdateAccount 					from '../modals/UpdateAccount';
 import { GET_DB_TODOS } 				from '../../cache/queries';
 import * as mutations 					from '../../cache/mutations';
 import { useMutation, useQuery } 		from '@apollo/client';
@@ -20,6 +21,7 @@ import WCard from 'wt-frontend/build/components/wcard/WCard';
 import WCContent from 'wt-frontend/build/components/wcard/WCContent';
 import WLFooter from 'wt-frontend/build/components/wlayout/WLFooter';
 import globe							from '../../images/globe.jpeg';
+import {Link} 							from "react";
 
 
 const Homescreen = (props) => {
@@ -29,6 +31,7 @@ const Homescreen = (props) => {
 	const [showDelete, toggleShowDelete] 	= useState(false);
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
+	const [showUpdate, toggleShowUpdate]	= useState(false);
 
 	const [ReorderTodoItems] 		= useMutation(mutations.REORDER_ITEMS);
 	const [UpdateTodoItemField] 	= useMutation(mutations.UPDATE_ITEM_FIELD);
@@ -176,18 +179,28 @@ const Homescreen = (props) => {
 		toggleShowDelete(false);
 		toggleShowCreate(false);
 		toggleShowLogin(!showLogin);
+		toggleShowUpdate(false);
 	};
 
 	const setShowCreate = () => {
 		toggleShowDelete(false);
 		toggleShowLogin(false);
 		toggleShowCreate(!showCreate);
+		toggleShowUpdate(false);
 	};
 
 	const setShowDelete = () => {
 		toggleShowCreate(false);
 		toggleShowLogin(false);
-		toggleShowDelete(!showDelete)
+		toggleShowDelete(!showDelete);
+		toggleShowUpdate(false);
+	}
+
+	const setShowUpdate = () => {
+		toggleShowCreate(false);
+		toggleShowLogin(false);
+		toggleShowDelete(false);
+		toggleShowUpdate(!showUpdate);
 	}
 
 	return (
@@ -204,52 +217,14 @@ const Homescreen = (props) => {
 							fetchUser={props.fetchUser} auth={auth} 
 							setShowCreate={setShowCreate} setShowLogin={setShowLogin}
 							refetchTodos={refetch} setActiveList={setActiveList}
+							setShowUpdate={setShowUpdate} user={props.user}
 						/>
 					</ul>
 				</WNavbar>
 			</WLHeader>
 
 			{
-			auth && (<WLSide side="left">
-				<WSidebar>
-					{
-						activeList ?
-							<SidebarContents
-								todolists={todolists} activeid={activeList.id} auth={auth}
-								handleSetActive={handleSetActive} createNewList={createNewList}
-								undo={tpsUndo} redo={tpsRedo}
-								updateListField={updateListField}
-							/>
-							:
-							<></>
-					}
-				</WSidebar>
-			</WLSide>)
-			}
-
-			{
-				auth && (<WLMain>
-				{
-					activeList ? 
-							<div className="container-secondary">
-								<MainContents
-									addItem={addItem} deleteItem={deleteItem}
-									editItem={editItem} reorderItem={reorderItem}
-									setShowDelete={setShowDelete}
-									activeList={activeList} setActiveList={setActiveList}
-								/>
-							</div>
-						:
-							<div className="container-secondary" />
-				}
-			</WLMain>)}
-
-			{
 				!auth && (<WLMain className="welcome"><img src={globe} alt="globe.jpg"/><br/>Welcome To The World Data Mapper</WLMain>)
-			}
-
-			{
-				showDelete && (<Delete deleteList={deleteList} activeid={activeList._id} setShowDelete={setShowDelete} />)
 			}
 
 			{
@@ -257,7 +232,11 @@ const Homescreen = (props) => {
 			}
 
 			{
-				showLogin && (<Login fetchUser={props.fetchUser} refetchTodos={refetch}setShowLogin={setShowLogin} />)
+				showLogin && (<Login fetchUser={props.fetchUser} refetchTodos={refetch} setShowLogin={setShowLogin} />)
+			}
+
+			{
+				showUpdate && (<UpdateAccount user={props.user} fetchUser={props.fetchUser} setShowUpdate={setShowUpdate}/>)
 			}
 
 		</WLayout>

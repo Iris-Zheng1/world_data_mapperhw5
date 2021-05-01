@@ -171,8 +171,10 @@ html, body {
 }
 
 .modal-header {
+    background-color: $primary-color;
     color: $text-color;
     font-size: 28px;
+    text-align: center;
 }
 
 .navbar-options {

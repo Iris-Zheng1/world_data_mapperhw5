@@ -2,7 +2,6 @@ import React                                from 'react';
 import { LOGOUT }                           from '../../cache/mutations';
 import { useMutation, useApolloClient }     from '@apollo/client';
 import { WButton, WNavItem }                from 'wt-frontend';
-
 const LoggedIn = (props) => {
     const client = useApolloClient();
 	const [Logout] = useMutation(LOGOUT);
@@ -17,11 +16,18 @@ const LoggedIn = (props) => {
     };
 
     return (
-        <WNavItem hoverAnimation="lighten">
-            <WButton className="navbar-options" onClick={handleLogout} wType="texted" hoverAnimation="text-primary">
-                Logout
-            </WButton>
-        </WNavItem >
+        <>
+            <WNavItem hoverAnimation="lighten">
+                <WButton className="navbar-options" onClick={props.setShowUpdate} wType="texted" >
+                    {props.user.firstName}
+                </WButton>
+            </WNavItem>
+            <WNavItem hoverAnimation="lighten">
+                <WButton className="navbar-options" onClick={handleLogout} wType="texted" hoverAnimation="text-primary">
+                    Logout
+                </WButton>
+            </WNavItem >
+        </>
     );
 };
 
@@ -48,7 +54,7 @@ const NavbarOptions = (props) => {
         <>
             {
                 props.auth === false ? <LoggedOut setShowLogin={props.setShowLogin} setShowCreate={props.setShowCreate} />
-                : <LoggedIn fetchUser={props.fetchUser} setActiveList={props.setActiveList} logout={props.logout} />
+                : <LoggedIn user={props.user} fetchUser={props.fetchUser} setActiveList={props.setActiveList} logout={props.logout} setShowUpdate={props.setShowUpdate}/>
             }
         </>
 
