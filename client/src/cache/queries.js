@@ -29,3 +29,15 @@ export const GET_DB_TODOS = gql`
 		}
 	}
 `;
+
+export const GET_DB_MAPS = gql`
+	query GetDBMaps {
+		getMaps {
+			_id
+			name
+			owner
+			regions
+			timestamp
+		}
+	}
+`;

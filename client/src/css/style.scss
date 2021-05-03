@@ -11,6 +11,8 @@
     $modal-button-color: rgba(255,255,255, 0.7),
     $modal-button-hover: #e9edf0,
     $button-text-color: black,
+    $card-color: #ff6666,
+    $card-media-width: 50%
     // other variable changes here
 );
 
@@ -51,6 +53,11 @@ html, body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: $background-color;
+}
+
+img {
+    width: 40%;
+    height: auto;
 }
 
 .complete-task {
@@ -189,6 +196,20 @@ html, body {
     font-size: 20px;
 }
 
+.navbar-options-disabled {
+    cursor: default;
+    color: $text-color;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.navbar-options-accent-disabled {
+    cursor: default;
+    color: $primary-color;
+    font-weight: bold;
+    font-size: 20px;
+}
+
 .cancel-button {
     color: $text-color;
 }
@@ -204,6 +225,38 @@ html, body {
 .welcome {
     color: $text-color;
     font-size: 64px;
+    font-weight: bold;
+    font-family: "Times New Roman";
+}
+
+.loading {
+    text-align: center;
+    height: 50%;
+    color: $primary-color;
+    font-size: 64px;
+    font-weight: bold;
+    font-family: "Times New Roman";
+}
+
+.map-select-header {
+    background-color: $navbar-background-color;
+    color: $text-color;
+    padding-top: 10px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: "Times New Roman";
+}
+
+.map-select-media {
+    background-color: $navbar-background-color;
+}
+
+.create-map {
+    background-color: $primary-color;
+    color: $text-color;
+    padding-left: 35%;
+    font-size: 32px;
     font-weight: bold;
     font-family: "Times New Roman";
 }

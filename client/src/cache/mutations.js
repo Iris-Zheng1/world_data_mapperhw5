@@ -97,3 +97,17 @@ export const UPDATE_TODOLIST_FIELD = gql`
 		updateTodolistField(_id: $_id, field: $field, value: $value)
 	}
 `;
+
+//MAP
+
+export const ADD_MAP = gql`
+	mutation AddMap($map: MapInput!) {
+		addMap(map: $map) 
+	}
+`;
+
+export const DELETE_MAP = gql`
+	mutation DeleteMap($_id: String!) {
+		deleteMap(_id: $_id)
+	}
+`;

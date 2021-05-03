@@ -4,25 +4,24 @@ import { WModal, WMHeader, WMMain, WButton } from 'wt-frontend';
 import WMFooter from 'wt-frontend/build/components/wmodal/WMFooter';
 
 const Delete = (props) => {
-
     const handleDelete = async () => {
-        props.deleteList(props.activeid);
+        props.deleteMap(props.id);
         props.setShowDelete(false);
     }
 
     return (
         <WModal className="delete-modal" visible = {true}>
             <WMHeader className="modal-header" onClose={() => props.setShowDelete(false)}>
-                Delete List?
+                Delete Map?
 			</WMHeader>
 
             <WMFooter>
-                <WButton className="modal-button cancel-button" onClick={() => props.setShowDelete(false)} wType="texted">
-                    Cancel
+            <WButton className="modal-button" onClick={handleDelete} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded">
+                    Delete
 				</WButton>
                 <label className="col-spacer">&nbsp;</label>
-                <WButton className="modal-button" onClick={handleDelete} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" color="danger">
-                    Delete
+                <WButton className="modal-button" onClick={() => props.setShowDelete(false)} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded">
+                    Cancel
 				</WButton>
             </WMFooter>
 
