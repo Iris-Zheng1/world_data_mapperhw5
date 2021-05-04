@@ -1,4 +1,3 @@
-/*
 const { model, Schema, ObjectId } = require('mongoose');
 
 const regionSchema = new Schema(
@@ -25,4 +24,4 @@ const regionSchema = new Schema(
 );
 
 const Region = model('Region', regionSchema);
-module.exports = Region;*/
+module.exports = Region;

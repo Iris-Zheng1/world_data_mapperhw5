@@ -33,6 +33,25 @@ module.exports = {
 	},
 	Mutation: {
 		/** 
+		 	@param 	 {object} args - a map id and an empty region object
+			@returns {string} the objectID of the region or an error message
+		**/
+		addRegion: async(_, args) => {
+			const { _id, region } = args;
+			const mapId = new ObjectId(_id);
+			const objectId = new ObjectId();
+			const found = await Map.findOne({_id: mapId});
+			if(!found) return ('Map not found');
+			if(region._id === '') region._id = objectId;
+			let mapRegions = found.regions;
+			mapRegions.push(region);
+			
+			const updated = await Map.updateOne({_id: mapId}, { regions: mapRegions});
+
+			if(updated) return (objectId);
+			else return ('Could not add region');
+		},
+		/** 
 		 	@param 	 {object} args - an empty map object
 			@returns {string} the objectID of the map or an error message
 		**/

@@ -17,20 +17,15 @@ export const GET_DB_MAPS = gql`
 			_id
 			name
 			owner
-			regions
+			regions {
+				_id
+				name
+				subregions
+				capital
+				leader
+				landmarks
+			}
 			timestamp
 		}
 	}
-`;
-
-export const GET_DB_MAP = gql`
-	query GetDBMap {
-		getMap {
-			_id
-			name
-			owner
-			regions
-			timestamp
-		}
-}
 `;

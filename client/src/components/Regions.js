@@ -7,7 +7,7 @@ import { useHistory }                                               from 'react-
 import { LOGOUT }                                                   from '../cache/mutations';
 import { useMutation, useQuery, useApolloClient }                   from '@apollo/client';
 import { GET_DB_MAPS } 				                                from '../cache/queries';
-import WCard from 'wt-frontend/build/components/wcard/WCard';
+import * as mutations 					                                    from '../cache/mutations';
 
 const Regions = (props) => {
     let maps                                = [];
@@ -16,6 +16,8 @@ const Regions = (props) => {
     const client                            = useApolloClient();
 	const [Logout]                          = useMutation(LOGOUT);
     const url                               = props.location.pathname.split('/');
+
+    const [AddRegion]                  = useMutation(mutations.ADD_REGION);
 
     const { loading, error, data, refetch } = useQuery(GET_DB_MAPS);
 
@@ -42,6 +44,19 @@ const Regions = (props) => {
             history.push('/home');
         }
     };
+
+    const addRegion = async() => {
+		let region = {
+			_id: '',
+			name: 'No Name',
+			subregions: [],
+            capital: 'No Capital',
+            leader: 'No Leader',
+            landmarks: []
+		}
+		const { data } = await AddRegion({ variables: { region: region, _id:url[2] }, refetchQueries: [{ query: GET_DB_MAPS }] });
+		await refetchMaps(refetch);
+    }
 
 	return (
 		props.user ? <WLayout wLayout="header">
@@ -75,7 +90,10 @@ const Regions = (props) => {
                 {selectedMap ? 
                 <>
                 <div className="region-spreadsheet">
-                    <div className="region-spreadsheet-header">Region Name: {selectedMap.name}</div>
+                    <div className="region-spreadsheet-header">
+                        <WButton className="add-region" onClick={addRegion} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded"><i className="material-icons">add</i></WButton>
+                        Region Name: {selectedMap.name}
+                    </div>
                         <WRow className='table-entry'>
                             <WCol size='2'>Name</WCol>
                             <WCol size='2'>Capital</WCol>
@@ -83,12 +101,16 @@ const Regions = (props) => {
                             <WCol size='1'>Flag</WCol>
                             <WCol size='2'>Landmarks</WCol>
                         </WRow>
-                </div>
-                { selectedMap.regions.map( entry =>
+                        { selectedMap.regions.map( entry =>
                              <WRow className='table-entry'>
-                                <WCol size='2'>entry</WCol>
+                                <WCol size='2'>{entry.name}</WCol>
+                                <WCol size='2'>{entry.capital}</WCol>
+                                <WCol size='2'>{entry.leader}</WCol>
+                                <WCol size='2'><i className="material-icons">flag</i></WCol>
+                                <WCol size='2'>{entry.landmarks}</WCol>
                             </WRow>)
                         }
+                </div>
                 </>
                 : <div/>}
             </WLMain>

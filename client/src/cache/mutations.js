@@ -54,3 +54,9 @@ export const UPDATE_MAP_FIELD = gql`
 		updateMapField(_id: $_id, field: $field, value: $value)
 	}
 `;
+
+export const ADD_REGION = gql`
+	mutation AddRegion($region: RegionInput!, $_id: String!) {
+		addRegion(region: $region, _id: $_id)
+   }
+`;
