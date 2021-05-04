@@ -106,7 +106,7 @@ const MapSelection = (props) => {
                         <Link to="/update-account">
                             <WNavItem hoverAnimation="lighten">
                                 <WButton className="navbar-options-accent" wType="texted">
-                                    {props.user.firstName}
+                                    {props.user.firstName + " " + props.user.lastName}
                                 </WButton>
                             </WNavItem>
                         </Link>

@@ -54,7 +54,7 @@ const UpdateAccountModal = (props) => {
 					<ul>
 						<WNavItem>
 							<WButton className="navbar-options-accent-disabled" wType="texted">
-								{props.user.firstName}
+								{props.user.firstName + " " + props.user.lastName}
 							</WButton>
 						</WNavItem>
 						<WNavItem>
