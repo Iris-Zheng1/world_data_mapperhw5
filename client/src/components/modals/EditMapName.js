@@ -11,31 +11,31 @@ const CreateMap = (props) => {
 		setInput(updated);
 	};
 
-    const handleCreate = async () => {
+    const handleEdit = async () => {
         for (let field in input) {
 			if (!input[field]) {
 				alert('Please name your map.');
 				return;
 			}
 		}
-        props.createNewMap(input.name);
-        props.setShowCreate(false);
+        props.setShowEdit(false);
+        props.editMapName(props.id,input.name);
     }
 
     return (
         <WModal className="delete-modal" visible = {true}>
-            <WMHeader className="modal-header" onClose={() => {props.setShowCreate(false); console.log("bruh")}}>
-                Create A New Map
+            <WMHeader className="modal-header" onClose={() => props.setShowEdit(false)}>
+                Rename Map
 			</WMHeader>
             <WMMain>
-                <WInput className="modal-input" onBlur={updateInput} name='name' labelAnimation="up" barAnimation="solid" labelText="Name" wType="outlined" inputType='text' />
+                <WInput className="modal-input" onBlur={updateInput} name='name' labelAnimation="up" barAnimation="solid" labelText="Name" wType="outlined" inputType='text' defaultValue={props.name}/>
             </WMMain>
             <WMFooter>
-                <WButton className="modal-button" onClick={handleCreate} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded">
-                    Create
+                <WButton className="modal-button" onClick={handleEdit} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded">
+                    Change
 				</WButton>
                 <label className="col-spacer">&nbsp;</label>
-                <WButton className="modal-button" onClick={() => props.setShowCreate(false)} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded">
+                <WButton className="modal-button" onClick={() => props.setShowEdit(false)} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded">
                     Cancel
 				</WButton>
             </WMFooter>

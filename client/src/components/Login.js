@@ -1,8 +1,8 @@
-import React, { useState, useEffect }                                      	from 'react';
+import React, { useState }                                      			from 'react';
 import Logo 							                                    from './navbar/Logo';
 import { LOGIN } 			                                                from '../cache/mutations';
-import { useMutation }                                                     	from '@apollo/client';
-
+import { useMutation, useQuery }            								from '@apollo/client';
+import { GET_DB_MAPS } 														from '../cache/queries';
 import { WModal, WMHeader, WMMain, WMFooter, WButton, WInput }              from 'wt-frontend';
 import { WNavbar, WNavItem } 	                                            from 'wt-frontend';
 import { WLayout, WLHeader }                                				from 'wt-frontend';
@@ -15,6 +15,8 @@ const Login = (props) => {
 	const errorMsg = "Email/Password not found.";
 	const [Login] = useMutation(LOGIN);
     const history = useHistory();
+
+	const { refetch } = useQuery(GET_DB_MAPS);
 
 	const updateInput = (e) => {
 		const { name, value } = e.target;
@@ -32,6 +34,7 @@ const Login = (props) => {
 		}
 		if (data) {
 			props.fetchUser();
+			const { loading, error, data } = await refetch();
 			toggleLoading(false);
 			history.push("/maps");
 		};

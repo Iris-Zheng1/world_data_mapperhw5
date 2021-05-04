@@ -1,6 +1,6 @@
-import React, { useState, useEffect } 		                 from 'react';
-import { WNavbar, WSidebar, WNavItem,WButton } 	             from 'wt-frontend';
-import Delete 					                     from '../modals/Delete';
+import React, { useState } 		 from 'react';
+import { WButton } 	             from 'wt-frontend';
+import Delete 					 from '../modals/Delete';
 
 const DeleteButton = (props) => {
     const [showDelete, toggleShowDelete] 	= useState(false);
@@ -12,7 +12,7 @@ const DeleteButton = (props) => {
     return (
         <>
         <WButton className='modal-button delete-map' onClick={setShowDelete} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded">
-            x
+            <i className="material-icons">close</i>
         </WButton>
         {showDelete && <Delete setShowDelete={setShowDelete} id={props.id} deleteMap={props.deleteMap}/>}
         </>

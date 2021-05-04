@@ -1,11 +1,11 @@
-import React, { useState } 	from 'react';
-import { UPDATE }			from '../cache/mutations';
-import { useMutation }    	from '@apollo/client';
-import Logo 							                     from './navbar/Logo';
-import { WModal, WMHeader, WMMain, WMFooter, WButton, WInput, WRow, WCol } from 'wt-frontend';
-import { WNavbar, WNavItem } 	                                            from 'wt-frontend';
-import { WLayout, WLHeader }                                	from 'wt-frontend';
-import { useHistory }                                                       from 'react-router-dom';
+import React, { useState } 														from 'react';
+import { UPDATE }																from '../cache/mutations';
+import { useMutation }    														from '@apollo/client';
+import Logo 							                     					from './navbar/Logo';
+import { WModal, WMHeader, WMMain, WMFooter, WButton, WInput, WRow, WCol } 		from 'wt-frontend';
+import { WNavbar, WNavItem } 	                                            	from 'wt-frontend';
+import { WLayout, WLHeader }                                					from 'wt-frontend';
+import { useHistory }                                                       	from 'react-router-dom';
 
 const UpdateAccountModal = (props) => {
 	const [input, setInput] = useState({ email: ''+props.user.email, oldPassword: '', newPassword: '', firstName: ''+props.user.firstName, lastName: ''+props.user.lastName });
@@ -38,7 +38,7 @@ const UpdateAccountModal = (props) => {
 		else{
 			props.fetchUser();
 			toggleLoading(false);
-			history.push("/maps");
+			history.goBack();
 		}
     }
 
@@ -66,7 +66,7 @@ const UpdateAccountModal = (props) => {
 				</WNavbar>
 			</WLHeader>
         <WModal className="update-modal" visible = {true}>
-            <WMHeader className="modal-header" onClose={() => {history.push("/maps")}}>
+            <WMHeader className="modal-header" onClose={() => {history.goBack()}}>
                 Update Account Information
 			</WMHeader>
 			<WMMain>
@@ -114,7 +114,7 @@ const UpdateAccountModal = (props) => {
 				<WButton className="modal-button" onClick={handleUpdateAccount} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" >
 					Update
 				</WButton>
-				<WButton className="modal-button-right" onClick={() => {history.push("/maps")}} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" >
+				<WButton className="modal-button-right" onClick={() => {history.goBack()}} span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" >
 					Cancel
 				</WButton>
             </WMFooter>

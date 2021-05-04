@@ -1,13 +1,17 @@
-import React, { useState, useEffect } 		from 'react';
+import React 								from 'react';
 import Logo 								from './navbar/Logo';
 import { WNavbar, WNavItem, WButton } 		from 'wt-frontend';
 import { WLayout, WLHeader, WLMain }		from 'wt-frontend';
 import globe								from '../images/globe.jpeg';
 import {Link} 								from "react-router-dom";
-
+import { useHistory }                                                       from 'react-router-dom';
 
 const Homescreen = (props) => {
-
+	const history = useHistory();
+	if(props.user){
+		history.push("/maps");
+	}
+	
 	return (
 		<WLayout wLayout="header">
 			<WLHeader>

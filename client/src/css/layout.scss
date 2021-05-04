@@ -251,6 +251,32 @@ html {
 }
 
 .delete-map {
+    float:right;
+    top:10px;
+    overflow-y: auto;
+}
+
+.map-select-maps {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height:100%;
+}
+
+.edit-map-name {
+    float:right;
+    top: 10px;
+}
+
+.region-spreadsheet-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.region-spreadsheet {
     position: absolute;
-    left: 40%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 70%;
 }
