@@ -269,7 +269,7 @@ html {
 
 .region-spreadsheet-header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom:60px;
 }
 
 .region-spreadsheet {
@@ -281,7 +281,18 @@ html {
     height: 70%;
 }
 
-.add-region {
-    position:absolute;
-    right:95%
+.header-button {
+    float: left;
+    margin-right: 5px;
+}
+
+.region-spreadsheet-title {
+    position: absolute;
+    left: 35%;
+}
+
+.flag {
+    margin-top:10px;
+    height:25px;
+    width: auto;
 }

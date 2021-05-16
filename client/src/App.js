@@ -58,7 +58,7 @@ const App = () => {
 				<Route
 					path="/maps/" 
 					name="map regions" 
-					component={(props) => <Regions {...props} fetchUser={refetch} user={user}/>}
+					component={(props) => <Regions {...props} fetchUser={refetch} user={user} tps={transactionStack}/>}
 				/>
 				<Route 
 					path="/update-account" 

@@ -116,6 +116,7 @@ html, body {
 .table-entry {
     border-bottom: 1px solid;
     color: $text-color;
+    text-align: center;
     transition: 0.1s ease-in-out;
     height: 46px;
 }
@@ -151,6 +152,7 @@ html, body {
 }
 
 .table-input {
+    text-align: center;
     /*background-color: var(--deep-blue-lighter);
     border-top: none;
     border-left: none;

@@ -96,6 +96,27 @@ module.exports = {
 			const updated = await Map.updateOne({_id: objectId}, {[field]: value});
 			if(updated) return true;
 			else return false;
-		}
+		},
+		/** 
+			@param	 {object} args - a map objectID, a region objectID, field, and
+									 update value. 
+			@returns {array} true on success, or false on failure
+		**/
+		updateRegionField: async (_, args) => {
+			const { regionId, _id, field } = args;
+			let { value } = args
+			const mapId = new ObjectId(_id);
+			const found = await Map.findOne({_id: mapId});
+			let regions = found.regions;
+			regions.map(region => {
+				if(region._id.toString() === regionId) {	
+					
+					region[field] = value;
+				}
+			});
+			const updated = await Map.updateOne({_id: mapId}, { regions: regions })
+			if(updated) return true;
+			return false;
+		},
 	}
 }
