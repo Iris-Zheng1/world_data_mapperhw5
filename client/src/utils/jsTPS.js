@@ -3,49 +3,6 @@ export class jsTPS_Transaction {
     doTransaction() {};
     undoTransaction () {};
 }
-/*   */
-export class UpdateListField_Transaction extends jsTPS_Transaction {
-    constructor(_id, field, prev, update, callback) {
-        super();
-        this.prev = prev;
-        this.update = update;
-        this.field = field;
-        this._id = _id;
-        this.updateFunction = callback;
-    }
-    async doTransaction() {
-		const { data } = await this.updateFunction({ variables: { _id: this._id, field: this.field, value: this.update }});
-		return data;
-    }
-    async undoTransaction() {
-        const { data } = await this.updateFunction({ variables: { _id: this._id, field: this.field, value: this.prev }});
-		return data;
-    }
-}
-
-/*  Handles item reordering */
-export class ReorderItems_Transaction extends jsTPS_Transaction {
-    constructor(listID, itemID, dir, callback) {
-        super();
-        this.listID = listID;
-        this.itemID = itemID;
-		this.dir = dir;
-		this.revDir = dir === 1 ? -1 : 1;
-		this.updateFunction = callback;
-	}
-
-    async doTransaction() {
-		const { data } = await this.updateFunction({ variables: { itemId: this.itemID, _id: this.listID, direction: this.dir }});
-		return data;
-    }
-
-    async undoTransaction() {
-		const {data} = await this.updateFunction({ variables: { itemId: this.itemID, _id: this.listID, direction: this.revDir }});
-		return data;
-
-    }
-    
-}
 
 /*  Handles region name/capital/leader edits */
 export class EditRegion_Transaction extends jsTPS_Transaction {
@@ -86,26 +43,26 @@ export class EditRegion_Transaction extends jsTPS_Transaction {
 }
 
 /*  Handles create/delete of list items */
-export class UpdateListItems_Transaction extends jsTPS_Transaction {
+export class UpdateRegions_Transaction extends jsTPS_Transaction {
     // opcodes: 0 - delete, 1 - add 
-    constructor(listID, itemID, item, opcode, addfunc, delfunc, index = -1) {
+    constructor(regionId, mapId, region, opcode, addfunc, delfunc, index = -1) {
         super();
-        this.listID = listID;
-		this.itemID = itemID;
-		this.item = item;
+        this.regionId = regionId;
+        this.mapId = mapId;
+        this.region = region;
         this.addFunction = addfunc;
         this.deleteFunction = delfunc;
         this.opcode = opcode;
-	this.index = index
+	    this.index = index
     }
     async doTransaction() {
 		let data;
         this.opcode === 0 ? { data } = await this.deleteFunction({
-							variables: {itemId: this.itemID, _id: this.listID}})
+							variables: {regionId: this.region._id, _id: this.mapId}})
 						  : { data } = await this.addFunction({
-							variables: {item: this.item, _id: this.listID, index: this.index}})  
+							variables: {_id: this.mapId, region: this.region, index: this.index }})  
 		if(this.opcode !== 0) {
-            this.item._id = this.itemID = data.addItem;
+            this.region._id = this.regionID = data.addRegion;
 		}
 		return data;
     }
@@ -113,17 +70,40 @@ export class UpdateListItems_Transaction extends jsTPS_Transaction {
     async undoTransaction() {
 		let data;
         this.opcode === 1 ? { data } = await this.deleteFunction({
-							variables: {itemId: this.itemID, _id: this.listID}})
-                          : { data } = await this.addFunction({
-							variables: {item: this.item, _id: this.listID, index: this.index}})
+                                variables: {regionId: this.region._id, _id: this.mapId}})
+                            : { data } = await this.addFunction({
+                                variables: {_id: this.mapId, region: this.region, index: this.index }})  
 		if(this.opcode !== 1) {
-            this.item._id = this.itemID = data.addItem;
+            this.region._id = this.regionID = data.addRegion;
         }
 		return data;
     }
 }
 
+export class SortRegions_Transaction extends jsTPS_Transaction {
+    constructor(_id, field, regions, redofunc, undofunc){
+        super();
+        this._id = _id;
+		this.field = field;
+        this.regions = regions;
+        this.redofunc = redofunc;
+        this.undofunc = undofunc;
+    }
 
+    async doTransaction() {
+		const { data } = await this.redofunc({ 
+				variables:{  _id: this._id, field: this.field}
+			});
+		return data;
+    }
+
+    async undoTransaction() {
+		const { data } = await this.undofunc({ 
+                variables:{  _id: this._id, regions: this.regions}
+            });
+        return data;
+    }
+}
 
 
 export class jsTPS {

@@ -1,18 +1,18 @@
-import React, { useState, useEffect } 		                                from 'react';
+import React, { useState, useEffect } 		                        from 'react';
 import Logo 								                        from './navbar/Logo';
 import { WNavbar, WNavItem, WButton } 		                        from 'wt-frontend';
-import { WLayout, WLHeader, WLMain, WRow, WCol }		                        from 'wt-frontend';
+import { WLayout, WLHeader, WLMain, WRow, WCol }		            from 'wt-frontend';
 import {Link} 								                        from "react-router-dom";
 import { useHistory }                                               from 'react-router-dom';
 import { LOGOUT }                                                   from '../cache/mutations';
 import RegionEntry                                                  from '../components/regions/RegionEntry';
 import { useMutation, useQuery, useApolloClient }                   from '@apollo/client';
 import { GET_DB_MAPS } 				                                from '../cache/queries';
-import * as mutations 					                                    from '../cache/mutations';
+import * as mutations 					                            from '../cache/mutations';
 import { UpdateRegions_Transaction, EditRegion_Transaction, 
-    SortRegions_Transaction }                                  from '../utils/jsTPS';
+         SortRegions_Transaction }                                  from '../utils/jsTPS';
 
-const Regions = (props) => {
+const Subregions = (props) => {
     let maps                                = [];
     let selectedMap                         = undefined;
 	const history = useHistory();
@@ -34,7 +34,6 @@ const Regions = (props) => {
         maps = data.getMaps;
         selectedMap = maps.find( map => map._id === url[2]);
     }
-
     const refetchMaps = async (refetch) => {
         const { loading, error, data } = await refetch();
 		if (data) {
@@ -63,7 +62,12 @@ const Regions = (props) => {
         }
     };
 
-    const addRegion = async() => {
+    const goHome = async (e) => {
+        props.tps.clearAllTransactions();
+        history.push('/maps');
+    }
+
+    const addRegion = async () => {
 		let region = {
 			_id: '',
 			name: 'No Name',
@@ -72,8 +76,22 @@ const Regions = (props) => {
             leader: 'No Leader',
             landmarks: []
 		}
-		let transaction = new UpdateRegions_Transaction(region._id, selectedMap._id, region, 1, AddRegion, DeleteRegion, -1);
-		props.tps.addTransaction(transaction);
+        let transaction = new UpdateRegions_Transaction(region._id, url[2], region, 1, AddRegion, DeleteRegion);
+        props.tps.addTransaction(transaction);
+		tpsRedo();
+    }
+
+    const deleteRegion = async (region, index) => {
+        let deletedRegion = {
+			_id: region._id,
+			name: region.name,
+            subregions: region.subregions,
+            capital: region.capital,
+			leader: region.leader,
+			landmarks: region.landmarks
+		}
+        let transaction = new UpdateRegions_Transaction(region._id, url[2], deletedRegion, 0, AddRegion, DeleteRegion, index);
+        props.tps.addTransaction(transaction);
 		tpsRedo();
     }
 
@@ -84,20 +102,6 @@ const Regions = (props) => {
             tpsRedo();
         }
 	};
-
-    const deleteRegion = async(entry,index) => {
-        let region= {
-			_id: entry._id,
-			name: entry.name,
-			subregions: entry.subregions,
-            capital: entry.capital,
-            leader: entry.leader,
-            landmarks: entry.landmarks
-		}
-        let transaction = new UpdateRegions_Transaction(region._id, selectedMap._id, region, 0, AddRegion, DeleteRegion, index);
-		props.tps.addTransaction(transaction);
-		tpsRedo();
-    }
 
     const sortRegions = async (field) => {
         let temp = [];
@@ -122,11 +126,9 @@ const Regions = (props) => {
 			<WLHeader>
 				<WNavbar color="colored">
 					<ul>
-                        <Link to='/maps'>
-                            <WNavItem>
-                                <Logo className='logo' />
-                            </WNavItem>
-                        </Link>
+                        <WNavItem onClick={goHome} className="home-nav">
+                            <Logo className='logo' />
+                        </WNavItem>
 					</ul>
 					<ul>
 					    <Link to="/update-account">
@@ -156,15 +158,15 @@ const Regions = (props) => {
                         <div className="region-spreadsheet-title">Region Name: {selectedMap.name}</div>
                     </div>
                         <WRow >
-                            <WCol className="not-really-table-entry" size='1'></WCol>
-                            <WCol className="table-entry table-text" onClick={() => sortRegions("name")} size='2'>Name</WCol>
-                            <WCol className="table-entry table-text" onClick={() => sortRegions("leader")} size='2'>Capital</WCol>
-                            <WCol className="table-entry table-text" onClick={() => sortRegions("capital")} size='2'>Leader</WCol>
+                            <WCol className="table-entry table-text" size='1'/>
+                            <WCol className="table-entry table-text" size='2' onClick={() => {sortRegions('name')}}>Name</WCol>
+                            <WCol className="table-entry table-text" size='2' onClick={() => {sortRegions('capital')}}>Capital</WCol>
+                            <WCol className="table-entry table-text" size='2' onClick={() => {sortRegions('leader')}}>Leader</WCol>
                             <WCol className="table-entry table-text" size='1'>Flag</WCol>
                             <WCol className="table-entry table-text" size='4'>Landmarks</WCol>
                         </WRow>
                         { selectedMap.regions.map( (entry,index) =>
-                            <RegionEntry entry={entry} editRegion={updateRegionField} index={index} deleteRegion={deleteRegion}/>)
+                            <RegionEntry entry={entry} index={index} deleteRegion={deleteRegion} editRegion={updateRegionField}/>)
                         }
                 </div>
                 </>
@@ -175,4 +177,4 @@ const Regions = (props) => {
 	);
 };
 
-export default Regions;
+export default Subregions;

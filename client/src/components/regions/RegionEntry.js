@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { WButton, WInput, WRow, WCol } from 'wt-frontend';
+import DeleteRegion 					 from '../modals/DeleteRegion';
 
 const RegionEntry = (props) => {
     const { entry } = props;
@@ -9,9 +10,14 @@ const RegionEntry = (props) => {
     const capital = entry.capital;
     const leader = entry.leader;
 
+    const [showDelete, toggleShowDelete] 	= useState(false);
     const [editingName, toggleNameEdit] = useState(false);
     const [editingCapital, toggleCapitalEdit] = useState(false);
     const [editingLeader, toggleLeaderEdit] = useState(false);
+
+    const setShowDelete = () => {
+        toggleShowDelete(!showDelete);
+    }
 
     const handleNameEdit = (e) => {
         toggleNameEdit(false);
@@ -33,18 +39,7 @@ const RegionEntry = (props) => {
         const prevLeader = capital;
         props.editRegion(entry._id, 'leader', newLeader, prevLeader);
     };
-    /*
-    const assigned_to = data.assigned_to;
 
-    const [editingStatus, toggleStatusEdit] = useState(false);
-    const[editingAssigned, toggleAssignedEdit] = useState(false);
-
-    const handleAssignedEdit = (e) => {
-        toggleAssignedEdit(false);
-        const newAssignment = e.target.value ? e.target.value : "Not Assigned";
-        const prevAssignment = assigned_to;
-        props.editItem(data._id, 'assigned_to', newAssignment,prevAssignment);
-    }*/
     const findFlag = (flag) => {
         try {
             images(flag)
@@ -55,8 +50,13 @@ const RegionEntry = (props) => {
       };
 
     return (
+        <>
         <WRow className='table-entry'>
-            <WCol size="3">
+            <WCol size="1" className="entry-button">
+                <WButton className="entry-button" onClick={setShowDelete} size="small" span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded"><i className="material-icons">close</i></WButton>
+                <WButton className="entry-button" size="small" span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded"><i className="material-icons">search</i></WButton>
+            </WCol>
+            <WCol size="2">
                 {
                     editingName || name === ''
                         ? <WInput
@@ -110,6 +110,8 @@ const RegionEntry = (props) => {
                 <div className="table-text">{props.entry.landmarks+"..."}</div>
             </WCol>
         </WRow>
+        {showDelete && <DeleteRegion setShowDelete={setShowDelete} entry={entry} deleteRegion={props.deleteRegion} index={props.index}/>}
+        </>
     );
 };
 

@@ -19,7 +19,7 @@ const regionSchema = new Schema(
 			type: String,
 			required: true
 		},
-		landmarks:[String]
+		landmarks:[String],
 	}
 );
 

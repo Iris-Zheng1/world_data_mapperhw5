@@ -22,17 +22,21 @@ const typeDefs = gql `
 		getMapById(_id: String!): Map
 	}
 	extend type Mutation {
-		addRegion(region: RegionInput!, _id: String!): String
 		addMap(map: MapInput!): String
+		addRegion(region: RegionInput!, _id: String!, index: Int!): String
 		deleteMap(_id: String!): Boolean
+		deleteRegion(regionId: String!, _id: String!): [Region]
+		sortRegions(_id: String!, field: String!): Boolean
 		updateMapField(_id: String!, field: String!, value: String!): Boolean
+		updateMapRegions(_id: String!, regions: [RegionInput!]): Boolean
 		updateRegionField(regionId: String!, _id: String!, field: String!, value: String!): Boolean
+		getSubregion(subregionId: String!): Region
 	}
 	input MapInput {
 		_id: String
 		name: String
 		owner: String
-		regions: [String]
+		regions: [RegionInput]
 		timestamp: Int
 	}
 	input RegionInput {
