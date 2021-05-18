@@ -166,6 +166,7 @@ const RegionViewer = (props) => {
         props.tps.clearAllTransactions();
         await ChangeParent({variables: {regionId: regionId, prevId: prevId, newId:newId}});
         history.push('/region-view/'+newId+'/'+regionId);
+        window.location.reload();
     };
 
     return (
