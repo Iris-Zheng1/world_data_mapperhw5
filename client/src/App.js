@@ -4,6 +4,7 @@ import CreateAccount	from './components/CreateAccount';
 import Login			from './components/Login';
 import Maps				from './components/Maps';
 import Regions			from './components/Regions';
+import RegionViewer		from './components/RegionViewer';
 import UpdateAccount	from './components/UpdateAccount';
 import { useQuery } 	from '@apollo/client';
 import * as queries 	from './cache/queries';
@@ -59,6 +60,11 @@ const App = () => {
 					path="/maps/" 
 					name="map regions" 
 					component={(props) => <Regions {...props} fetchUser={refetch} user={user} tps={transactionStack}/>}
+				/>
+				<Route
+					path="/region-view/" 
+					name="region viewer" 
+					component={(props) => <RegionViewer {...props} fetchUser={refetch} user={user} tps={transactionStack}/>}
 				/>
 				<Route 
 					path="/update-account" 

@@ -91,3 +91,9 @@ export const UPDATE_MAP_REGIONS = gql`
 		updateMapRegions(_id: $_id, regions: $regions)
 	}
 `;
+
+export const CHANGE_REGION_PARENT = gql`
+	mutation ChangeRegionParent($regionId: String!, $prevId: String!, $newId: String!){
+		changeRegionParent(regionId: $regionId, prevId: $prevId, newId: $newId)
+	}
+`;

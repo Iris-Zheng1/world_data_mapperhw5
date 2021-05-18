@@ -38,7 +38,7 @@ const CreateAccount = (props) => {
 			}
 			else {
 				props.fetchUser();
-				history.push('maps');
+				history.push("/home")
 			}
 		};
 	};

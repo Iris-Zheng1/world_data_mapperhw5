@@ -276,3 +276,36 @@ html, body {
     transition: 0.1s ease-in-out;
     height: 46px;
 }
+
+.home-button:hover{
+    cursor: pointer;
+}
+
+.region-info {
+    color: $text-color;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "Times New Roman";
+}
+
+.add-landmark {
+    background-color: #9C9C9C;
+    color: #9C9C9C;
+}
+
+.region-landmarks-list {
+    color: $text-color;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: "Times New Roman";
+    background-color: $navbar-background-color;
+}
+
+.parent-select{
+    font-family: 'Times New Roman';
+    //font-size: 14px;
+    font-size: 1.125rem;
+    border: none;
+    background-color: var(--deep-blue-lighter);
+    color: var(--light-gray);
+}

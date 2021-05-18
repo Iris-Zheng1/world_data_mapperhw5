@@ -31,6 +31,7 @@ const typeDefs = gql `
 		updateMapRegions(_id: String!, regions: [RegionInput!]): Boolean
 		updateRegionField(regionId: String!, _id: String!, field: String!, value: String!): Boolean
 		getSubregion(subregionId: String!): Region
+		changeRegionParent(regionId: String!, prevId: String!, newId: String!): Boolean
 	}
 	input MapInput {
 		_id: String

@@ -31,7 +31,7 @@ module.exports = {
 			const map = await Map.findOne({_id: objectId});
 			if(map) return map;
 			else return ({});
-		},
+		}
 	},
 	Mutation: {
 		/** 
@@ -189,6 +189,12 @@ module.exports = {
 		updateRegionField: async (_, args) => {
 			const { regionId, _id, field } = args;
 			let { value } = args
+
+			if( field === 'landmarks'){
+				value = value.split('?');
+				value = value.filter( e => e !== '');
+			}
+
 			const mapId = new ObjectId(_id);
 			const found = await Map.findOne({_id: mapId});
 			let regions = found.regions;
@@ -201,6 +207,26 @@ module.exports = {
 			const updated = await Map.updateOne({_id: mapId}, { regions: regions })
 			const updated1 = await Region.updateOne({_id: regionId}, {[field]: value})
 			if(updated) return true;
+			return false;
+		},
+		changeRegionParent: async (_, args) => {
+			const {regionId, prevId, newId} = args;
+
+			const prevMapId = new ObjectId(prevId);
+			const current = await Map.findOne({_id: prevMapId});
+
+			const newMapId = new ObjectId(newId);
+			const newMap = await Map.findOne({_id: newMapId});
+
+			let region = current.regions.find(region => region._id.toString() === regionId);
+			let regions = newMap.regions;
+			regions.push(region);
+
+			const updated = await Map.updateOne({_id: newMapId}, { regions: regions });
+			let regions2 = current.regions;
+			regions2 = regions2.filter(region => region._id.toString() !== regionId);
+			const updated2 = await Map.updateOne({_id: prevMapId}, { regions: regions2 });
+			if(updated && updated2) return true;
 			return false;
 		}
 	}

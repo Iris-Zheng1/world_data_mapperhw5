@@ -105,6 +105,33 @@ export class SortRegions_Transaction extends jsTPS_Transaction {
     }
 }
 
+export class UpdateLandmarks_Transaction extends jsTPS_Transaction {
+    constructor(regionId, _id, prevRegions, regions, callback){
+        super();
+        this.regionId = regionId;
+        this._id = _id;
+        this.prevRegions = prevRegions;
+        this.regions = regions;
+        this.callback = callback;
+    }
+
+    async doTransaction() {
+		const { data } = await this.callback({ 
+                variables:{  regionId: this.regionId, _id: this._id, field: "landmarks", value: this.regions}
+            });
+		return data;
+    }
+
+    async undoTransaction() {
+        console.log(this.prevRegions);
+        console.log(this.prevRegions.split('?'))
+        const { data } = await this.callback({ 
+                variables:{  regionId: this.regionId, _id: this._id, field: "landmarks", value: this.prevRegions}
+            });
+        return data;
+    }
+}
+
 
 export class jsTPS {
     constructor() {

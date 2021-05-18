@@ -54,7 +54,13 @@ const Regions = (props) => {
 		return retVal;
 	}
 
+    const goHome = async (e) => {
+        props.tps.clearAllTransactions();
+        history.push('/maps');
+    }
+
     const handleLogout = async (e) => {
+        props.tps.clearAllTransactions();
         Logout();
         const { data } = await props.fetchUser();
         if (data) {
@@ -62,6 +68,13 @@ const Regions = (props) => {
             history.push('/home');
         }
     };
+
+    const regionViewer = async (id) => {
+        props.tps.clearAllTransactions();
+        history.push({
+            pathname:'/region-view/'+url[2]+'/'+id
+        });
+    }
 
     const addRegion = async() => {
 		let region = {
@@ -122,11 +135,9 @@ const Regions = (props) => {
 			<WLHeader>
 				<WNavbar color="colored">
 					<ul>
-                        <Link to='/maps'>
-                            <WNavItem>
-                                <Logo className='logo' />
-                            </WNavItem>
-                        </Link>
+                        <WNavItem className="home-button" onClick={goHome}>
+                            <Logo className='logo' />
+                        </WNavItem>
 					</ul>
 					<ul>
 					    <Link to="/update-account">
@@ -164,7 +175,8 @@ const Regions = (props) => {
                             <WCol className="table-entry table-text" size='4'>Landmarks</WCol>
                         </WRow>
                         { selectedMap.regions.map( (entry,index) =>
-                            <RegionEntry entry={entry} editRegion={updateRegionField} index={index} deleteRegion={deleteRegion}/>)
+                            <RegionEntry entry={entry} editRegion={updateRegionField} index={index} deleteRegion={deleteRegion}
+                                         openRegionView={regionViewer}/>)
                         }
                 </div>
                 </>

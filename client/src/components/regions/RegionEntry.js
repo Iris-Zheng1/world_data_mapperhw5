@@ -54,7 +54,7 @@ const RegionEntry = (props) => {
         <WRow className='table-entry'>
             <WCol size="1" className="entry-button">
                 <WButton className="entry-button" onClick={setShowDelete} size="small" span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded"><i className="material-icons">close</i></WButton>
-                <WButton className="entry-button" size="small" span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded"><i className="material-icons">search</i></WButton>
+                <WButton className="entry-button" onClick={() => {props.openRegionView(entry._id)}}size="small" span={false} clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded"><i className="material-icons">search</i></WButton>
             </WCol>
             <WCol size="2">
                 {
@@ -107,7 +107,7 @@ const RegionEntry = (props) => {
             </WCol>
             
             <WCol size="4">
-                <div className="table-text">{props.entry.landmarks+"..."}</div>
+                <div className="table-text">{props.entry.landmarks.toString()}</div>
             </WCol>
         </WRow>
         {showDelete && <DeleteRegion setShowDelete={setShowDelete} entry={entry} deleteRegion={props.deleteRegion} index={props.index}/>}
